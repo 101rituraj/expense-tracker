@@ -1,8 +1,6 @@
 """a program where a user can add an expense (Category, Amount, Date), view a summary of spending by category
 and see the remaining balance"""
 
-maximum_limit = 1000
-
 expense_list = []
 
 def adding_expense_to_list(category, amount, date):
@@ -14,11 +12,10 @@ def adding_expense_to_list(category, amount, date):
     }
     expense_list.append(new_expense)
 
-def broke_message(amount):
+def broke_message(amount, max_limit):
     """if user ran out the money or balance goes negative, user will get the broke message"""
-    global  maximum_limit
-    maximum_limit -= amount
-    if maximum_limit <= 0 :
+    max_limit -= amount
+    if max_limit <= 0 :
         print("Sorry, You are BROKE")
         print(f"Your Total Balance is : {maximum_limit}")
         return True
@@ -38,6 +35,9 @@ def expense_summary(category_value):
             print("\n")
     print(f"Grand total is : {total}")
 
+#asking user to fix the expense limit
+maximum_limit = float(input("What should be the maximum limit of your expense ? : "))
+
 continue_adding = True
 while continue_adding:
     user_category = input("What is the category ? : ").lower()
@@ -45,7 +45,7 @@ while continue_adding:
     user_date = input("What is the Date ? : ")
     print("\n")
     adding_expense_to_list(category = user_category, amount = user_amount, date = user_date)
-    if broke_message(amount= user_amount):
+    if broke_message(amount= user_amount, max_limit = maximum_limit):
         continue_adding = False
 
         #user can check the summary again and again
