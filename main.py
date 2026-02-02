@@ -5,8 +5,8 @@ maximum_limit = 1000
 
 expense_list = []
 
-
 def adding_expense_to_list(category, amount, date):
+    """adding dictionary that contain expense category, amount, date to the expense list"""
     new_expense = {
         "category" : category,
         "amount" : amount,
@@ -15,6 +15,7 @@ def adding_expense_to_list(category, amount, date):
     expense_list.append(new_expense)
 
 def broke_message(amount):
+    """if user ran out the money or balance goes negative, user will get the broke message"""
     global  maximum_limit
     maximum_limit -= amount
     if maximum_limit <= 0 :
@@ -24,6 +25,7 @@ def broke_message(amount):
     return False
 
 def expense_summary(category_value):
+    """if user wish to see expense history  and total expense of a particular category"""
     length_of_expense_list = len(expense_list)
     total = 0
     for i in range(0, length_of_expense_list):
@@ -41,11 +43,19 @@ while continue_adding:
     user_category = input("What is the category ? : ").lower()
     user_amount = float(input("What is the Amount ? : "))
     user_date = input("What is the Date ? : ")
+    print("\n")
     adding_expense_to_list(category = user_category, amount = user_amount, date = user_date)
-    print(expense_list)
     if broke_message(amount= user_amount):
         continue_adding = False
-        user_input = input("You can check the expense history of a particular Category by writing the Category's name : ")
-        print("\n")
-        expense_summary(category_value = user_input)
+
+        #user can check the summary again and again
+        check_expense_history = True
+        while check_expense_history:
+            user_input = input("You can check the expense history of a particular Category by writing the Category's name or "
+                           "write 'OFF' to turn off the tracker : ").lower()
+            print("\n")
+            if user_input == "off":
+                check_expense_history = False
+            else:
+                expense_summary(category_value = user_input)
 
